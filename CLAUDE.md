@@ -1,6 +1,6 @@
 # Trading Hub — instrucciones para Claude Code
 
-Trading Hub es una plataforma de trading gratis y de código abierto para macOS (Apple Silicon) hecha en C#/.NET 10
+Trading Hub es una plataforma de trading gratis y de código abierto para macOS (Apple Silicon e Intel) hecha en C#/.NET 10
 con Avalonia. Corre 100 % local. La creó [@ralphtradesz](https://x.com/ralphtradesz). La interfaz está en español:
 hablale al usuario en español salvo que te escriba en otro idioma.
 
@@ -10,10 +10,10 @@ Hacé estos pasos en orden, contando brevemente qué hacés en cada uno. No pida
 falta para instalar.
 
 1. **Revisar la Mac.**
-   - `uname -m` tiene que decir `arm64` (Apple Silicon). Si dice `x86_64`, avisá que por ahora la app se arma solo
-     para Apple Silicon y pará (si quiere, mencioná que `PORTAR_A_WINDOWS.md` explica cómo adaptar el código a otras
-     plataformas).
-   - `sw_vers -productVersion` tiene que ser 12 o más.
+   - `sw_vers -productVersion` tiene que ser 12 o más. Si es anterior, avisá y pará.
+   - `uname -m` puede ser `arm64` (Apple Silicon) o `x86_64` (Intel). Las dos se instalan con el mismo
+     `./build-app.sh --install`: el script elige `osx-arm64` o `osx-x64`. No pares en Intel. Si hace falta forzar el
+     paquete, se puede correr con `RID=osx-arm64` o `RID=osx-x64`.
 
 2. **SDK de .NET 10.** Fijate si ya está: `~/.dotnet/dotnet --list-sdks` o `dotnet --list-sdks` (buscá una línea que
    empiece con `10.`). Si no está, instalalo en `~/.dotnet` (no necesita contraseña de administrador):

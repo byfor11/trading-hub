@@ -13,7 +13,7 @@ el trabajo en una PC con Windows: el inventario de lo que hay que cambiar, el pl
 
 | Dónde | Qué hace en macOS | Qué hacer en Windows |
 |---|---|---|
-| `build-app.sh` | Publica para `osx-arm64`, arma `Trading Hub.app`, lo firma con `codesign` y lo copia con `ditto` | Un `build-windows.ps1` que publique `win-x64` (y `win-arm64`) self-contained, con ícono `.ico`; opcional, un instalador (Inno Setup o MSIX) |
+| `build-app.sh` | Publica para `osx-arm64` u `osx-x64` según la Mac (`RID` lo fuerza), arma `Trading Hub.app`, lo firma con `codesign` y lo copia con `ditto` | Un `build-windows.ps1` que publique `win-x64` (y `win-arm64`) self-contained, con ícono `.ico`; opcional, un instalador (Inno Setup o MSIX) |
 | `src/TradingHub.App/Services/Connections.cs` (clase `Keychain`) | Guarda las claves en el Llavero con `/usr/bin/security` | Credential Manager de Windows (`CredWrite`/`CredRead`/`CredDelete` de `advapi32.dll`) o DPAPI (`ProtectedData`) con un archivo cifrado por usuario. Mantener la misma interfaz `Get`/`Set` |
 | `src/TradingHub.App/Services/SleepGuard.cs` | Evita que la Mac se duerma (IOKit `IOPMAssertion`) y, con la tapa cerrada, `pmset` con permiso de administrador vía `osascript` | `SetThreadExecutionState(ES_CONTINUOUS \| ES_SYSTEM_REQUIRED)` de `kernel32.dll`. La opción de la tapa cerrada se oculta o se cambia por una explicación de la configuración de energía de Windows |
 | `src/TradingHub.App/Program.cs` | `CGGetActiveDisplayList` (espera a que haya pantalla antes de arrancar) | Saltear esa espera en Windows (`OperatingSystem.IsMacOS()`) |

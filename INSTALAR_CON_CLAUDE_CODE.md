@@ -5,7 +5,7 @@ en Aplicaciones y la deja conectada a tu suscripción de Claude. No necesitás s
 
 ## Antes de empezar
 
-- Una Mac con Apple Silicon (M1 o más nuevo) y macOS 12 o más nuevo.
+- Una Mac con Apple Silicon (M1 o más nuevo) o Intel, y macOS 12 o más nuevo.
 - [Claude Code](https://claude.com/claude-code) instalado y con tu sesión iniciada (plan Pro o Max).
 
 ## Pasos
@@ -36,7 +36,7 @@ Si en Aplicaciones ya hay otra app llamada «Trading Hub», preguntame antes de 
 
 ## Qué va a pasar
 
-- Claude Code revisa tu Mac (Apple Silicon, macOS 12 o más nuevo).
+- Claude Code revisa tu Mac (Apple Silicon o Intel, macOS 12 o más nuevo).
 - Si no tenés el SDK de .NET 10, lo baja del sitio oficial de Microsoft a `~/.dotnet` (no toca el resto del sistema ni
   pide tu contraseña).
 - Compila Trading Hub (unos minutos la primera vez) y lo instala en `/Applications/Trading Hub.app`.

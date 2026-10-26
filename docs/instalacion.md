@@ -9,7 +9,7 @@ la firma y la copia a Aplicaciones. La primera vez tarda unos minutos porque baj
 
 | Qué | Detalle |
 |---|---|
-| Mac | Apple Silicon (M1 o posterior). Por ahora la app se arma solo para `arm64`. |
+| Mac | Apple Silicon (M1 o posterior) o Intel. El script elige el RID: `osx-arm64` o `osx-x64`. |
 | macOS | 12 o más nuevo. |
 | SDK de .NET 10 | Hace falta solo para compilar. Se instala en `~/.dotnet`, sin contraseña de administrador. |
 | Internet | La primera compilación baja los paquetes NuGet. |
@@ -20,11 +20,13 @@ La app que queda instalada es autocontenida: para usarla no necesitás tener .NE
 Para revisar tu Mac, abrí la Terminal y corré:
 
 ```bash
-uname -m                 # tiene que decir arm64
+uname -m                 # arm64 (Apple Silicon) o x86_64 (Intel); las dos sirven
 sw_vers -productVersion  # tiene que ser 12 o más
 ```
 
-Si `uname -m` dice `x86_64`, tu Mac es Intel y por ahora no está soportada.
+`./build-app.sh` publica para la arquitectura de esta Mac: `osx-arm64` si `uname -m` es `arm64`, y `osx-x64` en Intel
+(`x86_64`). Para forzar el paquete, definí `RID` antes de correrlo, por ejemplo `RID=osx-x64 ./build-app.sh --install`
+o `RID=osx-arm64 ./build-app.sh --install`. El flujo de instalación es el mismo en las dos.
 
 ## Opción 1: pedírselo a Claude Code
 
@@ -66,7 +68,8 @@ No hace falta agregar `~/.dotnet` al `PATH`: el script lo agrega solo mientras c
 
 ### Qué hace `build-app.sh`
 
-- Publica la app en modo Release para `osx-arm64`, autocontenida.
+- Publica la app en modo Release, autocontenida, para el RID de esta Mac (`osx-arm64` en Apple Silicon, `osx-x64` en
+  Intel). Si la variable de entorno `RID` está definida, usa esa.
 - Arma el paquete en una carpeta temporal, fuera del Escritorio: iCloud le agrega atributos a los archivos que rompen
   la firma.
 - Firma la app y deja una copia en `dist/Trading Hub.app`, dentro del repositorio.

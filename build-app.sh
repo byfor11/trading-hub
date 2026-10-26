@@ -1,7 +1,14 @@
 #!/bin/zsh
-# Compila Trading Hub y arma «Trading Hub.app» (Mac con Apple Silicon). Uso: ./build-app.sh [--install]
+# Compila Trading Hub y arma «Trading Hub.app» para la Mac donde corre. Uso: ./build-app.sh [--install]
 # El paquete se arma y se firma fuera del Escritorio: iCloud le agrega atributos que rompen la firma.
 # Opcional: un archivo build.local.env (no se sube a GitHub) con BUNDLE_ID y SIGN_IDENTITY propios.
+#
+# RID (identificador de runtime de .NET, el -r de dotnet publish):
+#   uname -m = arm64        → osx-arm64  (Apple Silicon; el mismo paquete de antes)
+#   cualquier otra (x86_64) → osx-x64    (Intel)
+# Si RID ya viene en el entorno, se usa esa y no se detecta. Gana sobre build.local.env:
+#   RID=osx-x64 ./build-app.sh --install
+#   RID=osx-arm64 ./build-app.sh
 set -e
 cd "$(dirname "$0")"
 export PATH="$HOME/.dotnet:$PATH" DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1
@@ -9,7 +16,17 @@ export PATH="$HOME/.dotnet:$PATH" DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1
 NAME="Trading Hub"
 BUNDLE_ID="app.tradinghub.desktop"
 SIGN_IDENTITY=""
+_RID_ENV="${RID-}"
 [ -f build.local.env ] && source ./build.local.env
+if [ -n "${_RID_ENV}" ]; then
+  RID="$_RID_ENV"
+elif [ -z "${RID:-}" ]; then
+  case "$(uname -m)" in
+    arm64) RID="osx-arm64" ;;
+    *) RID="osx-x64" ;;
+  esac
+fi
+unset _RID_ENV
 
 # TH_OUT / TH_STAGE: otra carpeta de salida y de armado (por defecto dist y una temporal)
 OUT="${TH_OUT:-dist}"
@@ -17,7 +34,8 @@ STAGE="${TH_STAGE:-${TMPDIR:-/tmp}tradinghub-app}"
 APP="$STAGE/$NAME.app"
 rm -rf "$OUT/publish" "$STAGE"
 mkdir -p "$STAGE"
-dotnet publish src/TradingHub.App/TradingHub.App.csproj -c Release -r osx-arm64 --self-contained true -o "$OUT/publish" -v q
+echo "Publicando para $RID"
+dotnet publish src/TradingHub.App/TradingHub.App.csproj -c Release -r "$RID" --self-contained true -o "$OUT/publish" -v q
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 ditto --noextattr --norsrc "$OUT/publish" "$APP/Contents/MacOS"
 cat > "$APP/Contents/Info.plist" <<PLIST

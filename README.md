@@ -11,7 +11,7 @@ Creada por [**@ralphtradesz**](https://x.com/ralphtradesz)
 ¿Usás Windows? [Mirá cómo portarla con Claude](#usás-windows).
 
 [![Licencia MIT + Commons Clause](https://img.shields.io/badge/licencia-MIT%20%2B%20Commons%20Clause-amber.svg)](LICENSE)
-![macOS Apple Silicon](https://img.shields.io/badge/macOS-Apple%20Silicon-black.svg)
+![macOS](https://img.shields.io/badge/macOS-Apple%20Silicon%20%7C%20Intel-black.svg)
 ![.NET 10](https://img.shields.io/badge/.NET-10-512BD4.svg)
 ![Avalonia](https://img.shields.io/badge/UI-Avalonia-8B44AC.svg)
 
@@ -105,7 +105,8 @@ Revisa tu Mac, instala lo que falte (sin contraseña de administrador), compila 
 La guía paso a paso está en [INSTALAR_CON_CLAUDE_CODE.md](INSTALAR_CON_CLAUDE_CODE.md).
 
 ### A mano
-Necesitás una Mac con Apple Silicon y macOS 12 o más nuevo (para Windows, mirá [¿Usás Windows?](#usás-windows)).
+Necesitás una Mac con Apple Silicon o Intel y macOS 12 o más nuevo (para Windows, mirá [¿Usás Windows?](#usás-windows)).
+`./build-app.sh` elige el paquete (`osx-arm64` o `osx-x64`) según la Mac.
 
 ```bash
 curl -sSL https://dot.net/v1/dotnet-install.sh -o /tmp/dotnet-install.sh
@@ -121,7 +122,7 @@ simulada: nada opera dinero real hasta que lo habilites en Conexiones. Más deta
 
 ## ¿Usás Windows?
 
-Hoy Trading Hub se compila para Mac con Apple Silicon, pero está hecho con .NET y Avalonia, que también corren en
+Hoy Trading Hub se compila para Mac (Apple Silicon e Intel), pero está hecho con .NET y Avalonia, que también corren en
 Windows: lo que depende de macOS está en pocos lugares bien identificados. Con **Claude Code** podés portarla en tu PC,
 por etapas y con las pruebas en verde en cada paso.
 

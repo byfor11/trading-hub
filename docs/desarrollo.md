@@ -35,8 +35,9 @@ dotnet test tests/TradingHub.Tests    # pruebas
 ./build-app.sh --install              # y la copia a /Applications
 ```
 
-`build-app.sh` publica en Release para `osx-arm64`, autocontenida, y arma el paquete fuera del Escritorio (iCloud le
-agrega atributos que rompen la firma). Un archivo `build.local.env`, que no se sube, puede definir `BUNDLE_ID` y
+`build-app.sh` publica en Release, autocontenida, para `osx-arm64` si `uname -m` es `arm64` y para `osx-x64` en Intel.
+La variable `RID` fuerza el identificador (`RID=osx-x64 ./build-app.sh`). Arma el paquete fuera del Escritorio (iCloud
+le agrega atributos que rompen la firma). Un archivo `build.local.env`, que no se sube, puede definir `BUNDLE_ID` y
 `SIGN_IDENTITY`; `TH_OUT` y `TH_STAGE` cambian las carpetas de salida y de armado. Más en
 [Instalación](instalacion.md).
 
